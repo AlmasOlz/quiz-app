@@ -1,0 +1,107 @@
+/* 1. НЕГІЗГІ ПАРАМЕТРЛЕР */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    color: #333;
+}
+
+.quiz-card {
+    background: #ffffff;
+    width: 100%;
+    max-width: 600px;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.quiz-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.back-link { text-decoration: none; color: #764ba2; font-weight: 600; font-size: 14px; }
+#quiz-title { font-weight: 700; color: #444; text-transform: uppercase; font-size: 14px; }
+
+.progress-container {
+    width: 100%; background-color: #f0f0f0; border-radius: 50px; height: 10px; margin-bottom: 15px; overflow: hidden;
+}
+.progress-bar {
+    height: 100%; background: linear-gradient(90deg, #667eea, #764ba2); width: 0%; border-radius: 50px; transition: width 0.4s ease-in-out;
+}
+
+/* INFO BAR (Санағыш + Өту) */
+.info-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.q-count { font-weight: 600; color: #888; font-size: 14px; }
+
+/* ӨТУ БЛОГЫ */
+.jump-box { display: flex; gap: 5px; }
+.jump-box input {
+    width: 60px; padding: 5px; border: 1px solid #ccc; border-radius: 8px; text-align: center; outline: none;
+}
+.jump-box input:focus { border-color: #667eea; }
+.jump-btn {
+    background: #667eea; color: white; border: none; padding: 5px 12px; border-radius: 8px; cursor: pointer; font-size: 13px;
+}
+
+#question-text { font-size: 18px; font-weight: 600; color: #2d3748; margin-bottom: 20px; text-align: center; }
+.img-container { text-align: center; margin-bottom: 20px; }
+#question-img { max-width: 100%; max-height: 250px; border-radius: 10px; }
+
+/* ЖАУАПТАР */
+.options-grid { display: flex; flex-direction: column; gap: 10px; }
+.option-item {
+    background: #f8f9fa; border: 2px solid transparent; padding: 15px; border-radius: 12px; cursor: pointer; display: flex; align-items: center; transition: all 0.2s;
+}
+.option-item:hover { background: #eef2ff; border-color: #667eea; }
+.circle { height: 12px; width: 12px; border: 2px solid #ccc; border-radius: 50%; margin-right: 15px; }
+
+.option-item.correct { background: #d4edda; border-color: #28a745; color: #155724; }
+.option-item.correct .circle { background: #28a745; border-color: #28a745; }
+.option-item.wrong { background: #f8d7da; border-color: #dc3545; color: #721c24; }
+.option-item.wrong .circle { background: #dc3545; border-color: #dc3545; }
+.disabled { pointer-events: none; opacity: 0.9; }
+
+/* БАТЫРМАЛАР БЛОГЫ */
+.navigation-buttons { display: flex; justify-content: space-between; gap: 10px; margin-top: 20px; }
+.nav-btn {
+    flex: 1; padding: 12px; border-radius: 12px; font-weight: 600; border: none; color: white; cursor: pointer; font-size: 15px;
+}
+.prev-btn { background: #e0e0e0; color: #555; }
+.check-btn { background: #ffc107; color: #333; }
+.next-btn { background: linear-gradient(90deg, #667eea, #764ba2); }
+
+/* НӘТИЖЕ */
+.result-card { text-align: center; }
+.trophy-icon { font-size: 60px; color: #ffb700; margin-bottom: 15px; }
+.score-box { font-size: 40px; font-weight: 800; color: #667eea; margin: 10px 0; }
+.action-buttons { display: flex; gap: 10px; justify-content: center; margin-top: 20px; }
+.btn-restart, .btn-home { padding: 10px 20px; border-radius: 10px; border: none; cursor: pointer; }
+.btn-restart { background: #667eea; color: white; }
+.btn-home { background: #edf2f7; color: #4a5568; text-decoration: none; display: flex; align-items: center; }
+
+/* МОБИЛЬДІ */
+@media (max-width: 768px) {
+    body { padding-top: 40px; align-items: flex-start; }
+    .nav-btn { font-size: 14px; padding: 10px; }
+}

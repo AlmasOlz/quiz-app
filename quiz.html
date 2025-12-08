@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Quiz</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="quiz-screen" class="quiz-card">
+        <div class="quiz-header">
+            <a href="index.html" class="back-link">
+                <i class="fas fa-arrow-left"></i> Артқа
+            </a>
+            <div class="timer-box">
+                <span id="quiz-title">Тақырып</span>
+            </div>
+        </div>
+        
+        <div class="progress-container">
+            <div class="progress-bar" id="progress-bar"></div>
+        </div>
+        
+        <div class="info-bar">
+            <div id="question-count" class="q-count">1 / 10</div>
+            
+            <div class="jump-box">
+                <input type="number" id="jump-input" placeholder="№" min="1">
+                <button onclick="jumpToQuestion()" class="jump-btn">Өту</button>
+            </div>
+        </div>
+
+        <h3 id="question-text">Сұрақ жүктелуде...</h3>
+
+        <div class="img-container">
+            <img id="question-img" src="" alt="Сурет" style="display: none;">
+        </div>
+        
+        <div id="options-list" class="options-grid"></div>
+
+        <div class="navigation-buttons">
+            <button id="prev-btn" class="nav-btn prev-btn" onclick="prevQuestion()" style="display: none;">
+                <i class="fas fa-arrow-left"></i> Артқа
+            </button>
+
+            <button id="check-btn" class="nav-btn check-btn" style="display: none;" onclick="checkMultiAnswer()">
+                Тексеру
+            </button>
+
+            <button id="next-btn" class="nav-btn next-btn" onclick="nextQuestion()" style="display: none;">
+                Келесі <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+    </div>
+
+    <div id="result-screen" class="quiz-card result-card" style="display: none;">
+        <div class="trophy-icon">
+            <i class="fas fa-trophy"></i>
+        </div>
+        <h2>Тест аяқталды!</h2>
+        <p class="result-label">Сіздің нәтижеңіз:</p>
+        
+        <div class="score-box">
+            <span id="score-text">0</span> / <span id="total-text">0</span>
+        </div>
+
+        <p id="feedback-text" class="feedback"></p>
+
+        <div class="action-buttons">
+            <button onclick="location.reload()" class="btn-restart">
+                <i class="fas fa-redo"></i> Қайта тапсыру
+            </button>
+            <a href="index.html" class="btn-home">
+                <i class="fas fa-home"></i> Мәзір
+            </a>
+        </div>
+    </div>
+
+    <script src="questions.js"></script>
+    <script src="script.js"></script>
+
+</body>
+</html>

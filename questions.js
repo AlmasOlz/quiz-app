@@ -1,0 +1,6 @@
+const allTests = {
+latin: [
+     
+
+    ]
+};
