@@ -141,8 +141,23 @@
     </div>
 </div>
 
+<!-- MOBILE BOTTOM NAV -->
+<nav class="mobile-nav">
+    <div class="mobile-nav-inner">
+        <a href="index.html" class="mobile-nav-item active">
+            <i class="fas fa-home"></i>Басты
+        </a>
+        <a href="#" id="mob-leaderboard-link" class="mobile-nav-item">
+            <i class="fas fa-trophy"></i>Рейтинг
+        </a>
+        <a href="#" onclick="logoutUser()" class="mobile-nav-item" style="color:#ef4444">
+            <i class="fas fa-sign-out-alt"></i>Шығу
+        </a>
+    </div>
+</nav>
+
 <!-- QUIZ GRID -->
-<div class="container-xl" style="margin-top:-12px; padding-bottom:48px">
+<div class="container-xl has-mobile-nav" style="margin-top:-12px; padding-bottom:48px">
 
     <!-- Title row -->
     <div class="d-flex align-items-center justify-content-between mb-4 mt-4">
@@ -244,6 +259,11 @@
             if (activeDocs.length === 0) {
                 grid.innerHTML = emptyState('Тесттер жоқ', 'Сізге арналған тест тағайындалмаған');
                 return;
+            }
+
+            // Set leaderboard link to first quiz
+            if (activeDocs.length > 0) {
+                document.getElementById('mob-leaderboard-link').href = `leaderboard.html?quiz=${activeDocs[0].id}`;
             }
 
             // Show count badge

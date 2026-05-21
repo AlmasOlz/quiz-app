@@ -195,9 +195,16 @@
                        id="login-email" placeholder="email@example.com" required autocomplete="email">
             </div>
             <div class="mb-4">
-                <label class="form-label fw-semibold small text-uppercase text-muted">
-                    <i class="fas fa-lock me-1"></i> Құпия сөз
-                </label>
+                <div class="d-flex justify-content-between align-items-center mb-1">
+                    <label class="form-label fw-semibold small text-uppercase text-muted mb-0">
+                        <i class="fas fa-lock me-1"></i> Құпия сөз
+                    </label>
+                    <button type="button" class="btn btn-link btn-sm p-0 text-decoration-none"
+                            style="font-size:12px;color:var(--primary)"
+                            onclick="showResetForm()">
+                        Ұмыттыңыз ба?
+                    </button>
+                </div>
                 <div class="input-group">
                     <input type="password" class="form-control form-control-lg rounded-start-3"
                            id="login-password" placeholder="••••••••" required autocomplete="current-password">
@@ -210,6 +217,30 @@
                 Кіру <i class="fas fa-arrow-right ms-1"></i>
             </button>
         </form>
+
+        <!-- RESET PASSWORD FORM -->
+        <div id="reset-form" style="display:none">
+            <div class="alert alert-info border-0 rounded-3 mb-3 py-2 px-3" style="background:#eff6ff;font-size:13px">
+                <i class="fas fa-info-circle me-1 text-primary"></i>
+                Email-іңізді енгізіңіз — сілтеме жіберіледі
+            </div>
+            <div class="mb-3">
+                <label class="form-label fw-semibold small text-uppercase text-muted">
+                    <i class="fas fa-envelope me-1"></i> Email
+                </label>
+                <input type="email" class="form-control form-control-lg rounded-3"
+                       id="reset-email" placeholder="email@example.com" autocomplete="email">
+            </div>
+            <div class="d-flex gap-2">
+                <button class="btn btn-primary fw-semibold flex-grow-1 rounded-3" id="reset-btn"
+                        onclick="handleResetPassword()">
+                    <i class="fas fa-paper-plane me-1"></i>Жіберу
+                </button>
+                <button class="btn btn-outline-secondary rounded-3 px-3" onclick="hideResetForm()">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+            </div>
+        </div>
 
         <!-- REGISTER FORM -->
         <form id="register-form" style="display:none" onsubmit="handleRegister(event)">
@@ -270,6 +301,7 @@
         document.getElementById('tab-register').classList.toggle('active', !isLogin);
         document.getElementById('login-form').style.display    = isLogin ? 'block' : 'none';
         document.getElementById('register-form').style.display = isLogin ? 'none'  : 'block';
+        document.getElementById('reset-form').style.display    = 'none'; // always hide on tab switch
         document.getElementById('form-subtitle').textContent   =
             isLogin ? 'Жалғастыру үшін кіріңіз' : 'Жаңа аккаунт жасаңыз';
     }
@@ -317,6 +349,57 @@
         const hidden = input.type === 'password';
         input.type = hidden ? 'text' : 'password';
         btn.querySelector('i').className = `fas fa-${hidden ? 'eye-slash' : 'eye'}`;
+    }
+
+    function showResetForm() {
+        document.getElementById('login-form').style.display  = 'none';
+        document.getElementById('reset-form').style.display  = 'block';
+        document.getElementById('form-subtitle').textContent = 'Құпия сөзді қалпына келтіру';
+        // Pre-fill email if already typed
+        const email = document.getElementById('login-email').value.trim();
+        if (email) document.getElementById('reset-email').value = email;
+    }
+
+    function hideResetForm() {
+        document.getElementById('reset-form').style.display  = 'none';
+        document.getElementById('login-form').style.display  = 'block';
+        document.getElementById('form-subtitle').textContent = 'Жалғастыру үшін кіріңіз';
+    }
+
+    async function handleResetPassword() {
+        const email = document.getElementById('reset-email').value.trim();
+        if (!email) { showToast('Email енгізіңіз', 'error'); return; }
+
+        const btn = document.getElementById('reset-btn');
+        btn.disabled = true;
+        btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Жіберілуде...';
+
+        try {
+            await auth.sendPasswordResetEmail(email);
+            showToast('Сілтеме жіберілді! Поштаңызды тексеріңіз 📧', 'success');
+            // Show success state
+            document.getElementById('reset-form').innerHTML = `
+                <div class="text-center py-3">
+                    <div style="width:64px;height:64px;background:#ecfdf5;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 14px">
+                        <i class="fas fa-check text-success fa-xl"></i>
+                    </div>
+                    <h6 class="fw-bold mb-1">Сілтеме жіберілді!</h6>
+                    <p class="text-muted small mb-3">${email} поштасына<br>хат жолдандық</p>
+                    <p class="text-muted" style="font-size:12px">Хат келмесе — Spam / Жарнама қалтасын тексеріңіз</p>
+                    <button class="btn btn-outline-primary rounded-3 mt-2" onclick="hideResetForm()">
+                        <i class="fas fa-arrow-left me-1"></i>Кіру бетіне оралу
+                    </button>
+                </div>`;
+        } catch (err) {
+            const msgs = {
+                'auth/user-not-found':   'Бұл email тіркелмеген',
+                'auth/invalid-email':    'Email форматы қате',
+                'auth/too-many-requests':'Тым көп сұраныс. Кейінірек қайталаңыз'
+            };
+            showToast(msgs[err.code] || 'Қате орын алды', 'error');
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fas fa-paper-plane me-1"></i>Жіберу';
+        }
     }
 </script>
 </body>

@@ -153,7 +153,22 @@
 <body>
 <div id="toast-container"></div>
 
-<div class="card border-0 result-card animate-in">
+<!-- MOBILE BOTTOM NAV -->
+<nav class="mobile-nav">
+    <div class="mobile-nav-inner">
+        <a href="index.html" class="mobile-nav-item">
+            <i class="fas fa-home"></i>Басты
+        </a>
+        <a href="#" id="mob-retry-btn" class="mobile-nav-item active">
+            <i class="fas fa-redo"></i>Қайталау
+        </a>
+        <a href="#" id="mob-lb-btn" class="mobile-nav-item">
+            <i class="fas fa-trophy"></i>Рейтинг
+        </a>
+    </div>
+</nav>
+
+<div class="card border-0 result-card animate-in has-mobile-nav">
 
     <!-- HERO -->
     <div class="result-hero" id="result-hero">
@@ -250,6 +265,7 @@
             }
             quizIdGlobal = r.quizId;
             renderResult(r);
+            wireMobileNav();
         } catch (err) { console.error(err); showToast('Жүктеу қатесі', 'error'); }
     }
 
@@ -330,6 +346,14 @@
 
     function retryQuiz()     { window.location.href = `quiz.html?id=${quizIdGlobal}`; }
     function goLeaderboard() { window.location.href = `leaderboard.html?quiz=${quizIdGlobal}`; }
+
+    // Wire up mobile bottom nav
+    function wireMobileNav() {
+        const retry = document.getElementById('mob-retry-btn');
+        const lb    = document.getElementById('mob-lb-btn');
+        if (retry) retry.onclick = (e) => { e.preventDefault(); retryQuiz(); };
+        if (lb)    lb.onclick    = (e) => { e.preventDefault(); goLeaderboard(); };
+    }
 </script>
 </body>
 </html>

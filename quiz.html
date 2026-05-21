@@ -103,6 +103,13 @@
         /* Nav buttons */
         .quiz-nav { display: flex; gap: 10px; }
         .quiz-nav .btn { border-radius: 12px !important; font-weight: 600; font-size: 14px; flex: 1; padding: 11px 16px; }
+        /* Mobile: nav becomes sticky */
+        @media (max-width: 767px) {
+            .quiz-nav { position: fixed; bottom: 0; left: 0; right: 0; padding: 12px 16px calc(12px + env(safe-area-inset-bottom)); background: white; border-top: 1px solid #e8ecf4; box-shadow: 0 -4px 20px rgba(0,0,0,.08); z-index: 200; }
+            .quiz-body { padding-bottom: 90px !important; }
+            body { align-items: flex-start !important; padding-top: 0 !important; padding-bottom: 0 !important; }
+            .quiz-card { border-radius: 0 !important; min-height: 100vh; }
+        }
     </style>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>

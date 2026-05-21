@@ -8,7 +8,133 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../style.css">
-    <style>body { font-family: 'Poppins', sans-serif; }</style>
+    <style>
+        body { font-family: 'Poppins', sans-serif; }
+
+        /* ── Top greeting banner ── */
+        .dash-banner {
+            background: var(--quiz-gradient);
+            padding: 28px 32px 64px;
+            position: relative;
+            overflow: hidden;
+        }
+        .dash-banner::before {
+            content:''; position:absolute; top:-40%; right:-5%;
+            width:360px; height:360px;
+            background:rgba(255,255,255,.07); border-radius:50%;
+        }
+        .dash-banner::after {
+            content:''; position:absolute; bottom:-50%; left:-3%;
+            width:260px; height:260px;
+            background:rgba(255,255,255,.05); border-radius:50%;
+        }
+        .dash-banner .content { position:relative; z-index:1; }
+        .dash-banner h4 { color:white; font-weight:800; margin-bottom:4px; font-size:1.3rem; }
+        .dash-banner p  { color:rgba(255,255,255,.7); font-size:13px; margin:0; }
+
+        /* ── Stat cards lifted over banner ── */
+        .stats-lifted {
+            margin-top: -42px;
+            position: relative;
+            z-index: 10;
+            padding: 0 24px;
+        }
+        .stat-card {
+            background: white;
+            border-radius: 16px;
+            padding: 20px 20px 16px;
+            box-shadow: 0 8px 32px rgba(0,0,0,.10);
+            border: 1px solid rgba(255,255,255,.8);
+            transition: transform .2s, box-shadow .2s;
+        }
+        .stat-card:hover { transform: translateY(-3px); box-shadow: 0 16px 40px rgba(0,0,0,.13); }
+        .stat-card .icon-wrap {
+            width: 48px; height: 48px; border-radius: 14px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 20px; color: white; margin-bottom: 14px;
+            flex-shrink: 0;
+        }
+        .stat-card .val  { font-size: 2rem; font-weight: 800; line-height: 1; color: #1e293b; }
+        .stat-card .lbl  { font-size: 12px; color: #64748b; font-weight: 500; margin-top: 4px; }
+        .stat-card .trend {
+            font-size: 11px; font-weight: 600;
+            display: inline-flex; align-items: center; gap: 3px;
+            padding: 2px 8px; border-radius: 20px; margin-top: 8px;
+        }
+        .trend-up   { background: #ecfdf5; color: #059669; }
+        .trend-info { background: #eff6ff; color: #2563eb; }
+
+        /* ── Section card ── */
+        .section-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 2px 12px rgba(0,0,0,.06);
+            overflow: hidden;
+        }
+        .section-card .sc-head {
+            padding: 18px 22px 14px;
+            border-bottom: 1px solid #f1f5f9;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .section-card .sc-head h6 { margin:0; font-weight:700; font-size:14px; }
+        .section-card .sc-head .sc-badge {
+            font-size: 11px; font-weight: 600;
+            background: #f1f5f9; color: #64748b;
+            padding: 4px 12px; border-radius: 20px;
+        }
+
+        /* ── Quick action cards ── */
+        .quick-btn {
+            display: flex; flex-direction: column; align-items: center;
+            justify-content: center; gap: 8px;
+            padding: 18px 12px;
+            background: white; border-radius: 14px;
+            border: 1.5px solid #e2e8f0;
+            text-decoration: none; color: #1e293b;
+            font-size: 12px; font-weight: 600;
+            transition: all .2s; text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,.04);
+        }
+        .quick-btn:hover {
+            border-color: #667eea;
+            box-shadow: 0 6px 20px rgba(102,126,234,.2);
+            transform: translateY(-2px);
+            color: #667eea;
+        }
+        .quick-btn .qb-icon {
+            width: 44px; height: 44px; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 18px; color: white;
+        }
+
+        /* ── Result row ── */
+        .result-row {
+            display: flex; align-items: center; gap: 12px;
+            padding: 11px 22px;
+            border-bottom: 1px solid #f8fafc;
+            transition: background .15s;
+        }
+        .result-row:last-child { border-bottom: none; }
+        .result-row:hover { background: #f8fafc; }
+        .result-row .rr-name { font-weight: 600; font-size: 13px; color: #1e293b; line-height: 1.2; }
+        .result-row .rr-quiz { font-size: 11px; color: #94a3b8; }
+        .result-row .rr-score { font-weight: 700; font-size: 13px; }
+
+        /* ── Quiz list item ── */
+        .quiz-row {
+            display: flex; align-items: center; gap: 12px;
+            padding: 10px 20px;
+            border-bottom: 1px solid #f8fafc;
+            transition: background .15s;
+        }
+        .quiz-row:last-child { border-bottom: none; }
+        .quiz-row:hover { background: #f8fafc; }
+        .quiz-icon {
+            width: 36px; height: 36px; border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 14px; color: white; flex-shrink: 0;
+        }
+    </style>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
@@ -65,128 +191,190 @@
 <div class="admin-main-wrapper">
 
     <!-- Top navbar -->
-    <nav class="navbar bg-white shadow-sm px-3 px-lg-4 sticky-top" style="z-index:999">
-        <button class="btn btn-link d-lg-none p-0 text-dark me-2" data-bs-toggle="offcanvas" data-bs-target="#adminSidebar">
+    <nav class="navbar bg-white shadow-sm px-3 px-lg-4 sticky-top" style="z-index:999;border-bottom:1px solid #f1f5f9">
+        <button class="btn btn-link d-lg-none p-0 me-2" style="color:#1e293b" data-bs-toggle="offcanvas" data-bs-target="#adminSidebar">
             <i class="fas fa-bars fa-lg"></i>
         </button>
-        <h6 class="mb-0 fw-bold">Dashboard</h6>
-        <div class="ms-auto d-flex align-items-center gap-2">
-            <div class="avatar-circle" id="admin-avatar">A</div>
-            <span class="fw-semibold small d-none d-sm-inline" id="admin-name"></span>
+        <div class="d-flex align-items-center gap-2">
+            <div style="width:8px;height:8px;background:#10b981;border-radius:50%;box-shadow:0 0 0 3px rgba(16,185,129,.2)"></div>
+            <span class="fw-bold" style="font-size:14px">Dashboard</span>
+        </div>
+        <div class="ms-auto d-flex align-items-center gap-3">
+            <a href="../index.html" class="btn btn-sm btn-outline-secondary rounded-pill d-none d-sm-inline-flex" style="font-size:12px">
+                <i class="fas fa-external-link-alt me-1"></i>Сайт
+            </a>
+            <div class="d-flex align-items-center gap-2">
+                <div class="avatar-circle" style="width:34px;height:34px;font-size:13px" id="admin-avatar">A</div>
+                <div class="d-none d-sm-block">
+                    <div class="fw-semibold" style="font-size:13px;line-height:1.2" id="admin-name">—</div>
+                    <div style="font-size:11px;color:#94a3b8">Administrator</div>
+                </div>
+            </div>
         </div>
     </nav>
 
-    <div class="p-3 p-lg-4">
+    <!-- Gradient banner -->
+    <div class="dash-banner">
+        <div class="content">
+            <p style="font-size:12px;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px">
+                <i class="fas fa-shield-alt me-1"></i>Admin Panel
+            </p>
+            <h4 id="greeting-text">Қош келдіңіз!</h4>
+            <p id="greeting-date"></p>
+        </div>
+    </div>
 
-        <!-- Stats row -->
-        <div class="row g-3 mb-4">
+    <!-- Stat cards lifted over banner -->
+    <div class="stats-lifted">
+        <div class="row g-3">
             <div class="col-6 col-xl-3">
-                <div class="card border-0 shadow-sm h-100" style="border-radius:1rem">
-                    <div class="card-body d-flex align-items-center gap-3 p-3">
-                        <div class="stat-icon-box" style="background:linear-gradient(135deg,#667eea,#764ba2)">
-                            <i class="fas fa-clipboard-list"></i>
-                        </div>
-                        <div>
-                            <div class="fs-3 fw-bold lh-1" id="stat-quizzes">—</div>
-                            <div class="text-muted small">Тесттер</div>
-                        </div>
+                <div class="stat-card">
+                    <div class="icon-wrap" style="background:linear-gradient(135deg,#667eea,#764ba2)">
+                        <i class="fas fa-clipboard-list"></i>
                     </div>
+                    <div class="val" id="stat-quizzes">—</div>
+                    <div class="lbl">Тесттер</div>
+                    <div class="trend trend-info"><i class="fas fa-list"></i> Барлығы</div>
                 </div>
             </div>
             <div class="col-6 col-xl-3">
-                <div class="card border-0 shadow-sm h-100" style="border-radius:1rem">
-                    <div class="card-body d-flex align-items-center gap-3 p-3">
-                        <div class="stat-icon-box" style="background:linear-gradient(135deg,#43e97b,#38f9d7)">
-                            <i class="fas fa-users"></i>
-                        </div>
-                        <div>
-                            <div class="fs-3 fw-bold lh-1" id="stat-users">—</div>
-                            <div class="text-muted small">Юзерлер</div>
-                        </div>
+                <div class="stat-card">
+                    <div class="icon-wrap" style="background:linear-gradient(135deg,#43e97b,#38f9d7)">
+                        <i class="fas fa-users"></i>
                     </div>
+                    <div class="val" id="stat-users">—</div>
+                    <div class="lbl">Пайдаланушылар</div>
+                    <div class="trend trend-up"><i class="fas fa-user-check"></i> Белсенді</div>
                 </div>
             </div>
             <div class="col-6 col-xl-3">
-                <div class="card border-0 shadow-sm h-100" style="border-radius:1rem">
-                    <div class="card-body d-flex align-items-center gap-3 p-3">
-                        <div class="stat-icon-box" style="background:linear-gradient(135deg,#a18cd1,#fbc2eb)">
-                            <i class="fas fa-check-circle"></i>
-                        </div>
-                        <div>
-                            <div class="fs-3 fw-bold lh-1" id="stat-results">—</div>
-                            <div class="text-muted small">Тапсырылды</div>
-                        </div>
+                <div class="stat-card">
+                    <div class="icon-wrap" style="background:linear-gradient(135deg,#a18cd1,#fbc2eb)">
+                        <i class="fas fa-check-double"></i>
                     </div>
+                    <div class="val" id="stat-results">—</div>
+                    <div class="lbl">Тапсырылды</div>
+                    <div class="trend trend-info"><i class="fas fa-chart-line"></i> Жалпы</div>
                 </div>
             </div>
             <div class="col-6 col-xl-3">
-                <div class="card border-0 shadow-sm h-100" style="border-radius:1rem">
-                    <div class="card-body d-flex align-items-center gap-3 p-3">
-                        <div class="stat-icon-box" style="background:linear-gradient(135deg,#fdcb6e,#e17055)">
-                            <i class="fas fa-percentage"></i>
-                        </div>
-                        <div>
-                            <div class="fs-3 fw-bold lh-1" id="stat-avg">—</div>
-                            <div class="text-muted small">Орта балл</div>
-                        </div>
+                <div class="stat-card">
+                    <div class="icon-wrap" style="background:linear-gradient(135deg,#fdcb6e,#e17055)">
+                        <i class="fas fa-percentage"></i>
                     </div>
+                    <div class="val" id="stat-avg">—</div>
+                    <div class="lbl">Орта балл</div>
+                    <div class="trend trend-up" id="avg-trend"><i class="fas fa-arrow-up"></i> Жалпы</div>
                 </div>
             </div>
         </div>
+    </div>
+
+    <!-- Main content -->
+    <div class="p-3 p-lg-4 pt-4">
 
         <!-- Quick actions -->
-        <div class="d-flex gap-2 flex-wrap mb-4">
-            <a href="quizzes.html" class="btn btn-primary rounded-pill fw-semibold px-4">
-                <i class="fas fa-plus me-1"></i>Жаңа тест
-            </a>
-            <a href="import.html" class="btn btn-success rounded-pill fw-semibold px-4">
-                <i class="fas fa-file-import me-1"></i>Импорт
-            </a>
-            <a href="users.html" class="btn btn-warning rounded-pill fw-semibold px-4">
-                <i class="fas fa-users me-1"></i>Юзерлер
-            </a>
+        <div class="mb-4">
+            <p class="fw-bold mb-3" style="font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:#94a3b8">
+                <i class="fas fa-bolt me-1"></i>Жылдам әрекет
+            </p>
+            <div class="row g-3 row-cols-3 row-cols-sm-4 row-cols-lg-6">
+                <div class="col">
+                    <a href="quizzes.html" class="quick-btn">
+                        <div class="qb-icon" style="background:linear-gradient(135deg,#667eea,#764ba2)">
+                            <i class="fas fa-plus"></i>
+                        </div>
+                        Жаңа тест
+                    </a>
+                </div>
+                <div class="col">
+                    <a href="import.html" class="quick-btn">
+                        <div class="qb-icon" style="background:linear-gradient(135deg,#43e97b,#38f9d7)">
+                            <i class="fas fa-file-import"></i>
+                        </div>
+                        Импорт
+                    </a>
+                </div>
+                <div class="col">
+                    <a href="users.html" class="quick-btn">
+                        <div class="qb-icon" style="background:linear-gradient(135deg,#4facfe,#00f2fe)">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        Юзерлер
+                    </a>
+                </div>
+                <div class="col">
+                    <a href="groups.html" class="quick-btn">
+                        <div class="qb-icon" style="background:linear-gradient(135deg,#a18cd1,#fbc2eb)">
+                            <i class="fas fa-layer-group"></i>
+                        </div>
+                        Топтар
+                    </a>
+                </div>
+                <div class="col">
+                    <a href="results.html" class="quick-btn">
+                        <div class="qb-icon" style="background:linear-gradient(135deg,#fdcb6e,#e17055)">
+                            <i class="fas fa-chart-bar"></i>
+                        </div>
+                        Нәтижелер
+                    </a>
+                </div>
+                <div class="col">
+                    <a href="../index.html" class="quick-btn">
+                        <div class="qb-icon" style="background:linear-gradient(135deg,#fd79a8,#e84393)">
+                            <i class="fas fa-home"></i>
+                        </div>
+                        Сайт
+                    </a>
+                </div>
+            </div>
         </div>
 
         <div class="row g-4">
             <!-- Recent results -->
             <div class="col-12 col-xl-8">
-                <div class="card border-0 shadow-sm" style="border-radius:1rem">
-                    <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center pt-3 pb-2 px-4" style="border-radius:1rem 1rem 0 0">
-                        <h6 class="fw-bold mb-0"><i class="fas fa-clock text-primary me-2"></i>Соңғы нәтижелер</h6>
-                        <a href="results.html" class="btn btn-sm btn-outline-secondary rounded-pill">Барлығы</a>
+                <div class="section-card">
+                    <div class="sc-head">
+                        <h6><i class="fas fa-clock text-primary me-2"></i>Соңғы нәтижелер</h6>
+                        <a href="results.html" class="sc-badge text-decoration-none">
+                            Барлығы <i class="fas fa-chevron-right ms-1" style="font-size:10px"></i>
+                        </a>
                     </div>
-                    <div class="table-responsive">
-                        <table class="table table-hover align-middle mb-0">
-                            <thead class="table-light">
-                                <tr>
-                                    <th>Атауы</th>
-                                    <th>Тест</th>
-                                    <th>Балл</th>
-                                    <th>%</th>
-                                    <th>Уақыт</th>
-                                    <th>Күні</th>
-                                </tr>
-                            </thead>
-                            <tbody id="recent-results-body">
-                                <tr><td colspan="6" class="text-center py-4 text-muted">
-                                    <span class="spinner-border spinner-border-sm me-2"></span>Жүктелуде...
-                                </td></tr>
-                            </tbody>
-                        </table>
+                    <div id="recent-results-body">
+                        <div class="result-row">
+                            <div class="skeleton rounded-circle" style="width:36px;height:36px;flex-shrink:0"></div>
+                            <div class="flex-grow-1">
+                                <div class="skeleton mb-1" style="height:12px;width:60%;border-radius:6px"></div>
+                                <div class="skeleton" style="height:10px;width:40%;border-radius:6px"></div>
+                            </div>
+                        </div>
+                        <div class="result-row">
+                            <div class="skeleton rounded-circle" style="width:36px;height:36px;flex-shrink:0"></div>
+                            <div class="flex-grow-1">
+                                <div class="skeleton mb-1" style="height:12px;width:50%;border-radius:6px"></div>
+                                <div class="skeleton" style="height:10px;width:35%;border-radius:6px"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <!-- Active quizzes -->
             <div class="col-12 col-xl-4">
-                <div class="card border-0 shadow-sm h-100" style="border-radius:1rem">
-                    <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center pt-3 pb-2 px-4" style="border-radius:1rem 1rem 0 0">
-                        <h6 class="fw-bold mb-0"><i class="fas fa-clipboard-list text-primary me-2"></i>Белсенді тесттер</h6>
-                        <a href="quizzes.html" class="btn btn-sm btn-outline-secondary rounded-pill">Барлығы</a>
+                <div class="section-card h-100">
+                    <div class="sc-head">
+                        <h6><i class="fas fa-clipboard-list text-primary me-2"></i>Белсенді тесттер</h6>
+                        <a href="quizzes.html" class="sc-badge text-decoration-none">
+                            Барлығы <i class="fas fa-chevron-right ms-1" style="font-size:10px"></i>
+                        </a>
                     </div>
-                    <div class="card-body px-4 pt-2" id="active-quizzes-list">
-                        <div class="text-muted small">
-                            <span class="spinner-border spinner-border-sm me-1"></span>Жүктелуде...
+                    <div id="active-quizzes-list">
+                        <div class="quiz-row">
+                            <div class="skeleton" style="width:36px;height:36px;border-radius:10px;flex-shrink:0"></div>
+                            <div class="flex-grow-1">
+                                <div class="skeleton mb-1" style="height:12px;width:70%;border-radius:6px"></div>
+                                <div class="skeleton" style="height:10px;width:40%;border-radius:6px"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -198,10 +386,25 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
+    // Greeting date
+    (function() {
+        const now = new Date();
+        const days = ['Жексенбі','Дүйсенбі','Сейсенбі','Сәрсенбі','Бейсенбі','Жұма','Сенбі'];
+        const months = ['қаңтар','ақпан','наурыз','сәуір','мамыр','маусым','шілде','тамыз','қыркүйек','қазан','қараша','желтоқсан'];
+        document.getElementById('greeting-date').textContent =
+            `${days[now.getDay()]}, ${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}`;
+    })();
+
     requireAdmin(async (user, userData) => {
         const name = userData.name || user.email;
         document.getElementById('admin-name').textContent = name;
         document.getElementById('admin-avatar').textContent = name.charAt(0).toUpperCase();
+
+        // Personalized greeting
+        const hour = new Date().getHours();
+        const greet = hour < 12 ? 'Қайырлы таң' : hour < 18 ? 'Қайырлы күн' : 'Қайырлы кеш';
+        document.getElementById('greeting-text').textContent = `${greet}, ${name.split(' ')[0]}! 👋`;
+
         await Promise.all([loadStats(), loadRecentResults(), loadActiveQuizzes()]);
     });
 
@@ -218,30 +421,49 @@
         if (resultSnap.size > 0) {
             let total = 0;
             resultSnap.forEach(d => total += (d.data().percentage || 0));
-            document.getElementById('stat-avg').textContent = Math.round(total / resultSnap.size) + '%';
+            const avg = Math.round(total / resultSnap.size);
+            document.getElementById('stat-avg').textContent = avg + '%';
+            const trend = document.getElementById('avg-trend');
+            if (avg >= 70) {
+                trend.className = 'trend trend-up';
+                trend.innerHTML = '<i class="fas fa-arrow-up"></i> Жақсы';
+            } else if (avg >= 50) {
+                trend.className = 'trend trend-info';
+                trend.innerHTML = '<i class="fas fa-minus"></i> Орташа';
+            } else {
+                trend.style.cssText = 'background:#fef2f2;color:#dc2626;font-size:11px;font-weight:600;display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:20px;margin-top:8px';
+                trend.innerHTML = '<i class="fas fa-arrow-down"></i> Төмен';
+            }
         } else {
             document.getElementById('stat-avg').textContent = '—';
         }
     }
 
     async function loadRecentResults() {
-        const snap = await db.collection('results').orderBy('completedAt', 'desc').limit(10).get();
-        const tbody = document.getElementById('recent-results-body');
+        const snap = await db.collection('results').orderBy('completedAt', 'desc').limit(8).get();
+        const container = document.getElementById('recent-results-body');
         if (snap.empty) {
-            tbody.innerHTML = '<tr><td colspan="6" class="text-center py-3 text-muted">Нәтиже жоқ</td></tr>';
+            container.innerHTML = '<div class="p-4 text-center text-muted small">Нәтиже жоқ</div>';
             return;
         }
-        tbody.innerHTML = snap.docs.map(d => {
+        container.innerHTML = snap.docs.map(d => {
             const r = d.data();
-            const pctCls = r.percentage >= 70 ? 'bg-success' : r.percentage >= 50 ? 'bg-warning text-dark' : 'bg-danger';
-            return `<tr>
-                <td class="fw-semibold">${r.userName || '—'}</td>
-                <td class="text-muted small">${r.quizTitle || '—'}</td>
-                <td>${r.score}/${r.total}</td>
-                <td><span class="badge ${pctCls}">${r.percentage}%</span></td>
-                <td class="text-muted small">${formatTime(r.timeTaken)}</td>
-                <td class="text-muted small">${formatDate(r.completedAt)}</td>
-            </tr>`;
+            const pct = r.percentage ?? 0;
+            const pctColor = pct >= 70 ? '#10b981' : pct >= 50 ? '#f59e0b' : '#ef4444';
+            const pctBg    = pct >= 70 ? '#ecfdf5' : pct >= 50 ? '#fffbeb' : '#fef2f2';
+            const initial  = (r.userName || '?').charAt(0).toUpperCase();
+            return `<div class="result-row">
+                <div class="avatar-circle flex-shrink-0" style="width:36px;height:36px;font-size:13px">${initial}</div>
+                <div class="flex-grow-1 overflow-hidden">
+                    <div class="rr-name text-truncate">${r.userName || '—'}</div>
+                    <div class="rr-quiz text-truncate">${r.quizTitle || '—'}</div>
+                </div>
+                <div class="text-end">
+                    <div class="rr-score">${r.score}/${r.total}</div>
+                    <span style="font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px;background:${pctBg};color:${pctColor}">${pct}%</span>
+                </div>
+                <div class="text-muted ms-1" style="font-size:11px;min-width:54px;text-align:right">${formatDate(r.completedAt)}</div>
+            </div>`;
         }).join('');
     }
 
@@ -249,20 +471,30 @@
         const snap = await db.collection('quizzes').where('isActive', '==', true).get();
         const container = document.getElementById('active-quizzes-list');
         if (snap.empty) {
-            container.innerHTML = '<p class="text-muted small mb-0">Белсенді тест жоқ</p>';
+            container.innerHTML = '<div class="p-4 text-center text-muted small"><i class="fas fa-inbox d-block mb-2 opacity-40 fa-lg"></i>Белсенді тест жоқ</div>';
             return;
         }
-        container.innerHTML = snap.docs.map(d => {
+        const GRADIENTS = [
+            'linear-gradient(135deg,#667eea,#764ba2)',
+            'linear-gradient(135deg,#f093fb,#f5576c)',
+            'linear-gradient(135deg,#4facfe,#00f2fe)',
+            'linear-gradient(135deg,#43e97b,#38f9d7)',
+            'linear-gradient(135deg,#fdcb6e,#e17055)',
+        ];
+        container.innerHTML = snap.docs.map((d, i) => {
             const q = d.data();
-            return `<div class="d-flex align-items-center gap-2 py-2 border-bottom">
-                <div class="stat-icon-box flex-shrink-0" style="width:34px;height:34px;border-radius:8px;font-size:13px;background:${q.color || 'var(--quiz-gradient)'}">
+            const bg = q.color || GRADIENTS[i % GRADIENTS.length];
+            return `<div class="quiz-row">
+                <div class="quiz-icon" style="background:${bg}">
                     <i class="${q.icon || 'fas fa-clipboard-list'}"></i>
                 </div>
                 <div class="flex-grow-1 overflow-hidden">
-                    <div class="fw-semibold small text-truncate">${q.title}</div>
-                    <div class="text-muted" style="font-size:11px">${q.questionCount || 0} сұрақ</div>
+                    <div class="fw-semibold text-truncate" style="font-size:13px">${q.title}</div>
+                    <div style="font-size:11px;color:#94a3b8">${q.questionCount || 0} сұрақ</div>
                 </div>
-                <span class="badge bg-primary-subtle text-primary border">${q.questionCount || 0}</span>
+                <span style="font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;background:#eff6ff;color:#3b82f6;white-space:nowrap">
+                    ${q.questionCount || 0} Q
+                </span>
             </div>`;
         }).join('');
     }
